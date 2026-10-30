@@ -1,0 +1,10 @@
+# Model IDs below are UNVERIFIED placeholders: confirm each in the provider's docs and
+# run a tool-calling smoke test before relying on them. Fallbacks are tried in order;
+# the last resort is the offline scripted model ("mock-offline").
+limits: {max_iters: 6, max_steps: 8, same_failure_limit: 2, max_review_rounds: 2, max_seconds: 300, timeout: 30}
+roles:
+  head:     [{provider: nvidia, model: nvidia/nemotron-3-ultra}, {provider: openrouter, model: nvidia/nemotron-3-ultra}]
+  planner:  [{provider: nvidia, model: nvidia/nemotron-3-ultra}, {provider: openrouter, model: nvidia/nemotron-3-ultra}]
+  verifier: [{provider: nvidia, model: nvidia/nemotron-3-ultra}, {provider: openrouter, model: nvidia/nemotron-3-ultra}]
+  reviewer: [{provider: nvidia, model: nvidia/nemotron-3-ultra}, {provider: openrouter, model: nvidia/nemotron-3-ultra}]
+  builder:  [{provider: google, model: gemini-2.5-flash}, {provider: openrouter, model: google/gemini-2.5-flash}]

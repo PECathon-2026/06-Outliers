@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b14">
+<title>DevPilot — Autonomous Engineering Guild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#080a12;--panel:#10131f;--panel2:#141827;--line:#252b3c;--text:#f1f3fb;--muted:#8d95ab;--purple:#a78bfa;--cyan:#65e7f2;--green:#74e2b4;--red:#ff7285;--amber:#ffd27a;--mono:"DM Mono",monospace;--sans:"Manrope",system-ui,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 15% -15%,#28204d 0,transparent 37%),radial-gradient(ellipse at 95% 5%,#102d3a 0,transparent 26%),var(--bg);color:var(--text);font:14px/1.6 var(--sans);min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(to bottom,#000,transparent 85%)}
+button,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.shell{max-width:1480px;margin:auto;padding:26px clamp(16px,3vw,44px) 42px;position:relative}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:24px;border-bottom:1px solid #ffffff12}
+.brand{display:flex;align-items:center;gap:13px}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#b7a1ff,#6e5be7 60%,#4ddbe8);display:grid;place-items:center;color:#101020;font-size:24px;font-weight:800;box-shadow:0 0 34px #9b85ff32}.brand-name{font-size:18px;font-weight:800;letter-spacing:-.7px}.brand-name span{color:var(--purple)}.brand-sub{font:10px var(--mono);color:var(--muted);letter-spacing:1.3px;text-transform:uppercase}
+.top-right{display:flex;align-items:center;gap:12px}.status-pill{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #2a3940;border-radius:99px;background:#101b20;color:#b6f8df;font:11px var(--mono);letter-spacing:.3px}.dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 12px #74e2b4}
+.eyebrow{font:11px var(--mono);text-transform:uppercase;letter-spacing:2px;color:var(--cyan)}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:34px 0 28px}.hero h1{font-size:clamp(30px,4vw,48px);line-height:1.1;letter-spacing:-2px;margin:8px 0 12px;font-weight:800}.hero h1 em{font-style:normal;background:linear-gradient(90deg,#b9a7ff,#64e5f0);background-clip:text;color:transparent}.hero p{color:var(--muted);margin:0;max-width:650px;font-size:14px}.hero-note{font:11px/1.8 var(--mono);color:#a0a8be;text-align:right;white-space:nowrap}.hero-note strong{display:block;color:var(--purple);font-size:15px;font-weight:500}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}.metric{padding:16px 18px;background:linear-gradient(145deg,#151a29,#0e111b);border:1px solid var(--line);border-radius:15px;position:relative;overflow:hidden}.metric:after{content:"";position:absolute;right:-18px;top:-30px;width:85px;height:85px;border-radius:50%;background:var(--glow,#a78bfa);filter:blur(40px);opacity:.15}.metric-label{font:10px var(--mono);color:var(--muted);letter-spacing:1px;text-transform:uppercase}.metric-value{font-size:26px;font-weight:800;letter-spacing:-1px;margin:4px 0 0}.metric-foot{font-size:11px;color:var(--muted)}.metric:nth-child(2){--glow:var(--cyan)}.metric:nth-child(3){--glow:var(--green)}.metric:nth-child(4){--glow:var(--amber)}
+.workspace{display:grid;grid-template-columns:minmax(285px,360px) minmax(0,1fr);gap:18px;align-items:start}.card{background:linear-gradient(160deg,#121624f5,#0e111bf5);border:1px solid var(--line);border-radius:17px;overflow:hidden;box-shadow:0 18px 50px #00000016}.card-head{display:flex;align-items:center;justify-content:space-between;padding:17px 19px;border-bottom:1px solid var(--line);gap:12px}.card-title{font-size:13px;font-weight:800;letter-spacing:.1px}.card-kicker{font:10px var(--mono);color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px}.card-body{padding:19px}
+.section-index{font:10px var(--mono);color:var(--purple);margin-right:8px}
+label{display:block;color:#cbd0df;font-size:12px;font-weight:700;margin:0 0 8px}.field{margin-bottom:17px}select,textarea{width:100%;border:1px solid #30364b;border-radius:10px;background:#0b0e17;color:var(--text);padding:12px 13px;transition:border .2s,box-shadow .2s}select:focus,textarea:focus{border-color:#8f7bf0;box-shadow:0 0 0 3px #a78bfa15;outline:0}textarea{min-height:132px;resize:vertical;line-height:1.65}textarea::placeholder{color:#646d83}.field-hint{font-size:10px;color:#727c94;margin-top:7px}
+.reset-row{display:flex;align-items:center;gap:9px;color:#aab2c6;font-size:11px;margin:2px 0 18px}.reset-row input{accent-color:var(--purple);width:14px;height:14px}
+.primary{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:11px;padding:13px 16px;background:linear-gradient(100deg,#b6a1ff,#7f73f2 58%,#6ce4ed);color:#0c0d1a;font-weight:800;box-shadow:0 8px 26px #8c7af02b;transition:transform .18s,filter .18s}.primary:hover{transform:translateY(-1px);filter:brightness(1.07)}.primary:disabled{opacity:.55;cursor:wait;transform:none}.arrow{font-size:18px}
+.agents{margin-top:24px}.subhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}.subhead strong{font-size:11px}.subhead span{font:10px var(--mono);color:var(--muted)}.agent-list{display:grid;gap:7px}.agent{display:flex;align-items:center;gap:10px;border:1px solid #252b3c;border-radius:10px;padding:9px 10px;background:#0d1019}.agent-icon{height:30px;width:30px;border-radius:9px;display:grid;place-items:center;background:#26213f;color:#c2b3ff;font-size:13px;font-weight:800;flex-shrink:0}.agent:nth-child(2) .agent-icon{background:#12303a;color:var(--cyan)}.agent:nth-child(3) .agent-icon{background:#153329;color:var(--green)}.agent:nth-child(4) .agent-icon{background:#352b18;color:var(--amber)}.agent:nth-child(5) .agent-icon{background:#302039;color:#e0adff}.agent-name{font-size:11px;font-weight:800}.agent-role{font-size:10px;color:var(--muted)}.agent-state{margin-left:auto;color:#626c82;font:9px var(--mono);text-transform:uppercase}
+.right-stack{display:grid;gap:18px;min-width:0}.live-tag{display:flex;align-items:center;gap:7px;font:10px var(--mono);color:var(--green);letter-spacing:.7px}.live-tag .dot{width:6px;height:6px}
+.log-wrap{padding:17px 19px;min-height:240px;max-height:470px;overflow:auto}.empty-state{min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted);padding:20px}.empty-symbol{width:50px;height:50px;border:1px solid #393451;background:#1a1730;border-radius:16px;display:grid;place-items:center;color:var(--purple);font-size:24px;margin-bottom:14px}.empty-state strong{color:#dce0f1;font-size:13px;margin-bottom:4px}.empty-state span{max-width:280px;font-size:11px}
+.ev{position:relative;padding:0 0 15px 20px;border-left:1px solid #30364b;margin-left:11px}.ev:last-child{padding-bottom:0;border-left-color:transparent}.ev:before{content:"";position:absolute;left:-5px;top:4px;width:9px;height:9px;border-radius:50%;background:var(--purple);box-shadow:0 0 12px #a78bfa60}.ev.test_result:before{background:var(--green);box-shadow:0 0 12px #74e2b460}.ev.escalation:before,.ev.bad:before{background:var(--red);box-shadow:0 0 12px #ff728560}.ev summary{display:flex;align-items:flex-start;gap:9px;cursor:pointer;list-style:none}.ev summary::-webkit-details-marker{display:none}.ev .k{display:none}.ev summary span{font-size:12px;color:#c6ccdc}.ev summary i{font:10px var(--mono);color:var(--purple);font-style:normal;text-transform:uppercase;margin-right:8px}.ev summary u{text-decoration:none;color:#7f89a1;font:9px var(--mono);text-transform:uppercase;border:1px solid #30364b;border-radius:4px;padding:2px 5px;margin-right:8px}.ev pre{white-space:pre-wrap;overflow:auto;background:#080b12;border:1px solid #252b3c;border-radius:8px;padding:12px;margin:10px 0 0;font:10px/1.6 var(--mono);color:#aeb9d1}
+#result{border-top:1px solid var(--line)}#result .card-head{border-bottom:1px solid var(--line)}.status-badge{border:1px solid #34404a;background:#12221f;color:var(--green);font:10px var(--mono);padding:5px 9px;border-radius:7px;text-transform:uppercase}.result-body{padding:18px 19px}.result-label{font:10px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}.diffbox{margin:0 0 18px;padding:14px;background:#080b12;border:1px solid #252b3c;border-radius:10px;overflow:auto;white-space:pre-wrap;font:11px/1.7 var(--mono);color:#d0d7e8;min-height:42px}.add{color:var(--green)}.del{color:var(--red)}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.report-box{border:1px solid var(--line);border-radius:10px;padding:13px;background:#0c1019}.report-box h3{font-size:11px;margin:0 0 9px}.report-box ul{margin:0;padding-left:16px;color:#aeb6c9;font-size:11px}.report-box li+li{margin-top:6px}.report-box.verified h3{color:var(--green)}.report-box.claims h3{color:var(--amber)}
+.seals{display:flex;gap:10px;margin-top:17px}.seal{border-radius:9px;padding:10px 15px;border:1px solid #285b4a;background:#123328;color:var(--green);font-weight:800}.seal.no{border-color:#633340;background:#301720;color:#ff9aaa}.seal small{font-size:10px;font-weight:600;margin-left:7px}.stamp{display:inline-block;margin-top:16px;padding:7px 13px;border:1px solid var(--green);border-radius:8px;color:var(--green);font:11px var(--mono);letter-spacing:1px;animation:pop .3s ease-out}.footer{display:flex;justify-content:space-between;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid #ffffff10;color:#69738b;font:10px var(--mono)}.footer b{color:#a7aec2;font-weight:500}
+.toast{position:fixed;right:20px;bottom:20px;max-width:min(400px,calc(100vw - 40px));background:#301720;border:1px solid #633340;color:#ffb3bf;padding:12px 15px;border-radius:10px;box-shadow:0 12px 40px #0008;z-index:5;font-size:12px}
+@keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}[hidden]{display:none!important}
+@media(max-width:920px){.workspace{grid-template-columns:1fr}.hero{align-items:flex-start}.hero-note{display:none}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.shell{padding:16px 12px 28px}.topbar{padding-bottom:17px}.brand-sub{font-size:8px}.status-pill{font-size:9px;padding:7px 9px}.hero{padding:25px 0 20px}.hero h1{letter-spacing:-1.3px}.metrics{gap:8px}.metric{padding:12px}.metric-value{font-size:22px}.card-body,.log-wrap,.result-body{padding:14px}.card-head{padding:14px}.cols{grid-template-columns:1fr}.footer{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+
+/* Anime-action energy theme: original styling inspired by bold orange, gold, cobalt and ink-black palettes. */
+:root{color-scheme:dark;--bg:#100b0a;--panel:#1a1110;--panel2:#241613;--line:#513024;--text:#fff4df;--muted:#c0a28b;--purple:#ffb02e;--cyan:#4ebdff;--green:#8be08b;--red:#ff5948;--amber:#ffd45e;--mono:"DM Mono",monospace;--sans:"Manrope",system-ui,sans-serif}
+body{background:radial-gradient(ellipse at 18% 0%,#b52b1238 0,transparent 36%),radial-gradient(ellipse at 94% 8%,#124c873d 0,transparent 28%),linear-gradient(150deg,#120b09 0%,#0b0b10 58%,#17100b 100%);color:var(--text)}
+body:before{opacity:.16;background-image:linear-gradient(#ffd8a00a 1px,transparent 1px),linear-gradient(90deg,#ffd8a00a 1px,transparent 1px);background-size:30px 30px}
+.logo{border-radius:12px;background:linear-gradient(145deg,#fff078,#ff8a22 55%,#ee392d);color:#1b0b06;box-shadow:0 0 34px #ff6a1d35}
+.brand-name span{color:var(--amber)}
+.status-pill{border-color:#315b69;background:#101c23;color:#b9edff}
+.dot{background:var(--green);box-shadow:0 0 12px #8be08b}
+.eyebrow{color:var(--amber)}
+.hero h1 em{background:linear-gradient(90deg,#ffe16b 0%,#ff8428 48%,#ff5148 72%,#56bdff 100%);background-clip:text;color:transparent}
+.hero-note strong{color:var(--amber)}
+.metric{background:linear-gradient(145deg,#281714,#151014);border-color:#4c2d23;border-radius:12px}
+.metric:after{background:var(--glow,#ff8b27);opacity:.2}
+.metric:nth-child(2){--glow:var(--cyan)}.metric:nth-child(3){--glow:var(--green)}.metric:nth-child(4){--glow:var(--amber)}
+.card{background:linear-gradient(160deg,#1d1514f7,#100e12f7);border-color:#4b2d24;border-radius:14px;box-shadow:0 18px 50px #00000035}
+.card-head{border-bottom-color:#4b2d24}
+.section-index{color:var(--amber)}
+label{color:#f3d9c3}
+select,textarea{border-color:#55382d;border-radius:8px;background:#100d0f;color:var(--text)}
+select:focus,textarea:focus{border-color:#ff9b31;box-shadow:0 0 0 3px #ff9b311c}
+.reset-row input{accent-color:var(--amber)}
+.primary{background:linear-gradient(100deg,#ffe16b 0%,#ff9a2e 48%,#ff5148 78%,#e9362c 100%);color:#210b06;box-shadow:0 8px 28px #ff6a1d30;border-radius:9px}
+button:focus-visible,textarea:focus-visible,select:focus-visible{outline-color:var(--amber)}
+a{color:var(--cyan)}
+::selection{background:#ff762d77;color:#fff8ed}
+
+
+/* Visual polish: cinematic Japanese-night photo, motion, and clearer interaction states. */
+.hero{position:relative;isolation:isolate;padding:38px 26px 30px;margin:8px 0 20px;border:1px solid #57352b;border-radius:18px;overflow:hidden;background:linear-gradient(90deg,#100b0af5 0%,#100b0ae8 44%,#100b0a66 100%),url("https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1800&q=85") center 48%/cover no-repeat;box-shadow:0 16px 48px #0005}
+.hero:after{content:"";position:absolute;z-index:-1;right:7%;top:16%;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,#ffcf63 0%,#ff762e 45%,#ff3f2c 68%,transparent 72%);opacity:.72;filter:drop-shadow(0 0 30px #ff6b2d66);animation:sunPulse 5s ease-in-out infinite}
+.hero h1{max-width:760px;text-shadow:0 2px 22px #0008}
+.metric,.card,.agent{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.metric:hover{transform:translateY(-3px);border-color:#ff9b4c;box-shadow:0 12px 32px #ff6b1d14}
+.card:hover{border-color:#704331}
+.agent{background:linear-gradient(110deg,#171113,#111017);border-color:#3f2a24}
+.agent:hover{transform:translateX(3px);border-color:#ff9b4c}
+.agent-icon{background:linear-gradient(145deg,#ffe16b,#ff7928)!important;color:#21100a!important;box-shadow:0 4px 16px #ff8c2c20}
+.primary{position:relative;overflow:hidden;min-height:48px}
+.primary:before{content:"";position:absolute;top:-80%;left:-35%;width:22%;height:260%;background:#fff8d877;transform:rotate(24deg);animation:buttonShine 5s ease-in-out infinite}
+.primary span{position:relative}
+select,textarea{min-height:44px}
+textarea{min-height:140px}
+.field-hint{font-size:11px;line-height:1.5}
+.reset-row{font-size:12px}
+.empty-symbol{animation:floaty 3s ease-in-out infinite;border-color:#a34a2d;background:#281511;color:#ffd45e}
+.ev{animation:fadeSlide .35s ease both}
+.status-badge,.status-pill{backdrop-filter:blur(8px)}
+.seal,.seal.no{transition:transform .2s ease,filter .2s ease}
+.seal:hover,.seal.no:hover{transform:translateY(-2px);filter:brightness(1.12)}
+.footer{position:relative}
+@keyframes sunPulse{0%,100%{transform:scale(.96);opacity:.62}50%{transform:scale(1.04);opacity:.82}}
+@keyframes buttonShine{0%,65%{left:-35%}90%,100%{left:130%}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){.hero{padding:26px 18px;background-position:58% center}.hero:after{right:-30px;top:5%;width:100px;height:100px;opacity:.35}.hero h1{font-size:clamp(28px,8vw,42px)}}
+@media(prefers-reduced-motion:reduce){.hero:after,.primary:before,.empty-symbol,.ev{animation:none!important}}
+
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+  <div class="brand"><div class="logo" aria-hidden="true">✳</div><div><div class="brand-name">Dev<span>Pilot</span></div><div class="brand-sub">Autonomous engineering guild</div></div></div>
+  <div class="top-right"><div class="status-pill"><span class="dot"></span> CONTROL PLANE READY</div></div>
+</header>
+<section class="hero">
+  <div><div class="eyebrow">◈ Mission control / v1.0</div><h1>Ship better code.<br><em>Without the busywork.</em></h1><p>Deploy your AI engineering guild against a repository. Plan, build, test, review — then approve the patch when you're ready.</p></div>
+  <div class="hero-note"><strong>01 — 06 / AGENTS</strong>Plan → Build → Verify → Review</div>
+</section>
+<section class="metrics" aria-label="System overview">
+  <div class="metric"><div class="metric-label">Guild members</div><div class="metric-value">06</div><div class="metric-foot">Specialized agents</div></div>
+  <div class="metric"><div class="metric-label">Execution stream</div><div class="metric-value">LIVE</div><div class="metric-foot">Server-sent events</div></div>
+  <div class="metric"><div class="metric-label">Change policy</div><div class="metric-value">HITL</div><div class="metric-foot">Human approval gate</div></div>
+  <div class="metric"><div class="metric-label">Workspace</div><div class="metric-value" id="repoCount">—</div><div class="metric-foot">Available repositories</div></div>
+</section>
+<main class="workspace">
+  <aside class="card">
+    <div class="card-head"><div><div class="card-title"><span class="section-index">01</span>Launch a mission</div><div class="card-kicker">Configure your task</div></div><span class="eyebrow">INPUT</span></div>
+    <div class="card-body">
+      <div class="field"><label for="repo">Target repository</label><select id="repo" aria-label="Target repository"><option>Loading repositories…</option></select><div class="field-hint">Choose the codebase the guild should work on.</div></div>
+      <div class="field"><label for="req">Mission brief</label><textarea id="req" spellcheck="false">Fix the discount calculation so apply_discount takes pct percent off the price.</textarea><div class="field-hint">Be specific about expected behavior, constraints, and acceptance criteria.</div></div>
+      <label class="reset-row"><input type="checkbox" id="reset" checked> Reset demo repository before running</label>
+      <button id="go" class="primary"><span class="arrow">↗</span><span>Initialize mission</span></button>
+      <div class="agents">
+        <div class="subhead"><strong>YOUR ENGINEERING GUILD</strong><span>06 ONLINE</span></div>
+        <div class="agent-list">
+          <div class="agent"><div class="agent-icon">H</div><div><div class="agent-name">Head of Guild</div><div class="agent-role">Orchestrates decisions & limits</div></div><span class="agent-state">LEAD</span></div>
+          <div class="agent"><div class="agent-icon">P</div><div><div class="agent-name">Planner</div><div class="agent-role">Inspects repo & defines criteria</div></div><span class="agent-state">PLAN</span></div>
+          <div class="agent"><div class="agent-icon">B</div><div><div class="agent-name">Builder</div><div class="agent-role">Implements the proposed patch</div></div><span class="agent-state">BUILD</span></div>
+          <div class="agent"><div class="agent-icon">S</div><div><div class="agent-name">Sentinel</div><div class="agent-role">Runs tests & catches regressions</div></div><span class="agent-state">TEST</span></div>
+          <div class="agent"><div class="agent-icon">V</div><div><div class="agent-name">Verifier + Shadow Council</div><div class="agent-role">Checks criteria, risks & secrets</div></div><span class="agent-state">REVIEW</span></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <section class="right-stack">
+    <div class="card">
+      <div class="card-head"><div><div class="card-title"><span class="section-index">02</span>Mission telemetry</div><div class="card-kicker">Agent activity · streamed in real time</div></div><div class="live-tag"><span class="dot"></span><span id="streamState">AWAITING MISSION</span></div></div>
+      <div id="log" class="log-wrap" aria-live="polite"><div class="empty-state"><div class="empty-symbol">⌁</div><strong>Ready when you are</strong><span>Launch a mission to watch each agent reason, act, and report evidence in this live feed.</span></div></div>
+    </div>
+    <div class="card" id="result" hidden>
+      <div class="card-head"><div><div class="card-title"><span class="section-index">03</span>Mission report</div><div class="card-kicker">Patch review & evidence</div></div><span class="status-badge" id="status">PENDING</span></div>
+      <div class="result-body">
+        <div class="result-label">Proposed diff</div><pre id="diff" class="diffbox">No diff was produced.</pre>
+        <div class="cols"><div class="report-box verified"><h3>✓ Verified evidence</h3><ul id="ver"></ul></div><div class="report-box claims"><h3>◇ Claims & unresolved items</h3><ul id="clm"></ul></div></div>
+        <div class="seals" id="seals" hidden><button class="seal" id="ok" aria-label="Approve and apply changes">✓ Approve patch <small>Apply to repository</small></button><button class="seal no" id="no" aria-label="Reject changes">× Reject patch <small>Discard changes</small></button></div>
+        <div class="stamp" id="stamp" hidden></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer"><span><b>DEVPILOT</b> · AUTONOMOUS ENGINEERING GUILD</span><span>LOCAL SANDBOX · HUMAN-IN-THE-LOOP BY DESIGN</span></footer>
+</div>
+<div id="toast" class="toast" role="alert" hidden></div>
+<script>
+const $=s=>document.querySelector(s),K={head:'H',planner:'P',builder:'B',sentinel:'S',verifier:'V',shadow:'◈',router:'R',human:'✓'};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let mid,startedAt,elapsedTimer;
+async function api(p,o){const r=await fetch(p,o);let j;try{j=await r.json()}catch{j={}}if(!r.ok)throw new Error(j.detail||`Request failed (${r.status})`);return j}
+const post=(p,b)=>api(p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b||{})});
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;setTimeout(()=>t.hidden=true,5500)}
+async function repos(){try{const r=await api('/repos');$('#repo').innerHTML=r.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');$('#repoCount').textContent=String(r.length).padStart(2,'0')}catch(e){$('#repo').innerHTML='<option value="">API unavailable</option>';$('#repoCount').textContent='—';toast('Could not load repositories: '+e.message)}}
+function add(ev){
+  const d=document.createElement('details');d.className='ev '+ev.type+(ev.payload?.code>0?' bad':'');
+  d.innerHTML=`<summary><b class="k">${K[ev.agent]||'?'}</b><span><i>${esc(ev.agent)}</i><u>${esc(ev.type)}</u>${esc(ev.payload?.msg||'')}</span></summary>${ev.evidence?`<pre>${esc(ev.evidence)}</pre>`:''}`;
+  $('#log').querySelector('.empty-state')?.remove();$('#log').append(d);
+  if(['escalation','test_result'].includes(ev.type))d.open=true;
+  $('#log').scrollTop=$('#log').scrollHeight;
+}
+function paint(l){return esc(l).replace(/^(\+(?!\+).*)$/gm,'<span class="add">$1</span>').replace(/^(-(?!-).*)$/gm,'<span class="del">$1</span>')}
+async function finish(missionId=mid){
+  const m=await api('/missions/'+encodeURIComponent(missionId));
+  $('#result').hidden=false;$('#status').textContent=m.status.replace(/_/g,' ');
+  $('#diff').innerHTML=m.diff?paint(m.diff):'No diff was produced.';
+  $('#ver').innerHTML=(m.report?.verified||[]).map(x=>`<li>${esc(x)}</li>`).join('')||'<li>Nothing verified yet.</li>';
+  $('#clm').innerHTML=[...(m.report?.claims||[]),...(m.report?.unresolved||[]).map(x=>'Unresolved: '+x)].map(x=>`<li>${esc(x)}</li>`).join('')||'<li>No additional claims.</li>';
+  $('#seals').hidden=m.status!=='awaiting_approval';
+  const s=$('#stamp');s.hidden=!['approved','rejected'].includes(m.status);
+  s.textContent=m.status==='approved'?'✓ PATCH APPROVED & APPLIED':'× PATCH REJECTED';
+  $('#streamState').textContent=m.status.replace(/_/g,' ').toUpperCase();
+}
+async function start(){
+  const go=$('#go');if(!$('#repo').value){toast('Choose a repository before launching.');return}
+  if(!$('#req').value.trim()){toast('Add a mission brief first.');$('#req').focus();return}
+  go.disabled=true;go.innerHTML='<span class="arrow">◌</span><span>Guild is working…</span>';$('#log').innerHTML='<div class="empty-state"><div class="empty-symbol">◌</div><strong>Initializing your guild</strong><span>Connecting agents and preparing the mission stream…</span></div>';$('#result').hidden=true;$('#streamState').textContent='CONNECTING';$('#streamState').style.color='var(--cyan)';
+  try{
+    if($('#reset').checked)await post('/repos/reset');
+    mid=(await post('/missions',{repo:$('#repo').value,request:$('#req').value.trim()})).id;
+    $('#streamState').textContent='MISSION LIVE';
+    let closed=false, polling=false;
+    const restoreButton=()=>{go.disabled=false;go.innerHTML='<span class="arrow">↗</span><span>Launch another mission</span>'};
+    const missionId=mid;
+    const loadReport=async()=>{try{await finish(missionId);}catch(e){$('#result').hidden=false;$('#status').textContent='REPORT ERROR';$('#diff').textContent='Could not load mission report: '+e.message+'\\nThe mission registry is now persisted across server reloads. If this is an older mission, launch it again.';toast('Mission finished, but report loading failed: '+e.message)}restoreButton()};
+    const es=new EventSource(`/missions/${encodeURIComponent(missionId)}/events`);
+    es.onmessage=e=>{try{add(JSON.parse(e.data))}catch(err){console.error('Invalid mission event',err)}};
+    es.addEventListener('done',async()=>{if(closed)return;closed=true;es.close();await loadReport()});
+    es.onerror=async()=>{if(closed)return;
+      // Safari/proxies can close an SSE stream without delivering the custom done event.
+      try { const m=await api('/missions/'+encodeURIComponent(missionId)); if(m.status && m.status!=='running'){closed=true;es.close();await loadReport();return} } catch(e) {}
+      if(es.readyState===2 && !polling){polling=true;es.close();$('#streamState').textContent='RECONNECTING';let tries=0;
+        const timer=setInterval(async()=>{tries++;try{const m=await api('/missions/'+encodeURIComponent(missionId));if(m.status && m.status!=='running'){clearInterval(timer);closed=true;await loadReport()}else if(tries>=120){clearInterval(timer);restoreButton();toast('Mission is still running. Check the backend terminal for errors.')}}catch(e){if(tries>=10){clearInterval(timer);restoreButton();toast('Lost connection to the backend: '+e.message)}}},1000)}
+    };
+  }catch(e){$('#log').innerHTML=`<div class="empty-state"><div class="empty-symbol">!</div><strong>Mission could not start</strong><span>${esc(e.message)}</span></div>`;$('#streamState').textContent='ERROR';go.disabled=false;go.innerHTML='<span class="arrow">↗</span><span>Try again</span>';toast('Could not start mission: '+e.message)}
+}
+async function decide(w){const buttons=[$('#ok'),$('#no')];buttons.forEach(b=>b.disabled=true);try{await post(`/missions/${mid}/${w}`);await finish()}catch(e){toast(e.message)}finally{buttons.forEach(b=>b.disabled=false)}}
+$('#go').onclick=start;$('#ok').onclick=()=>decide('approve');$('#no').onclick=()=>decide('reject');repos();
+</script>
+</body></html>
